@@ -1,25 +1,24 @@
+import { getCurrentUser } from "@/services/clerk/lib/getCurrentAuth"
 import { SidebarUserButtonClient } from "./_SidebarUserButtonClient"
-// import { getCurrentUser } from "@/services/clerk/lib/getCurrentAuth"
-// import { SignOutButton } from "@/services/clerk/components/AuthButtons"
-// import { SidebarMenuButton } from "@/components/ui/sidebar"
+import { SignOutButton } from "@clerk/nextjs"
+import { SidebarMenuButton } from "@/components/ui/sidebar"
 import { auth } from "@clerk/nextjs/server"
 import { LogOutIcon } from "lucide-react"
 
 export async function SidebarUserButton() {
-  // const { user } = await getCurrentUser({ allData: true })
+  const { user } = await getCurrentUser({ allData: true })
   const { userId } = await auth()
 
-  // if (user == null) {
-  //   return (
-  //     <SignOutButton>
-  //     <SidebarMenuButton>
-  //       <LogOutIcon />
-  //       <span>Log Out</span>
-  //     </SidebarMenuButton>
-  //     </SignOutButton >
-  //   )
-  // }
+  if (user == null) {
+    return (
+      <SignOutButton>
+        <div className="flex items-center gap-2 ">
+          <LogOutIcon size="18" />
+          <span>Log Out</span>
+        </div>
+      </SignOutButton >
+    )
+  }
 
-  // return <SidebarUserButtonClient user={user} />
-  return <SidebarUserButtonClient user={{ email: "kyle@test.com", name: "Kyle Cook", imageUrl: "" }} />
+  return <SidebarUserButtonClient user={user} />
 }
